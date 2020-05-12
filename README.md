@@ -8,10 +8,11 @@ This backend version of the User API application only provides a REST API. There
 
 ## Running User API locally
 ### With maven command line
+```
 git clone https://github.com/harinathk/user-api-rest.git
 cd user-api-rest
 ./mvnw spring-boot:run
-
+```
 ## Database configuration
 In its default configuration, User API uses an in-memory database (H2) which gets populated at startup with data. A similar setups is provided for MySql in case a persistent database configuration is needed. To run user api locally using persistent database, it is needed to change profile defined in application.properties file.
 
