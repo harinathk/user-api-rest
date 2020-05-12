@@ -8,6 +8,6 @@ This backend version of the User Info application only provides a REST API. Ther
 
 ## Running User API locally
 ### With maven command line
-git clone https://github.com/spring-petclinic/spring-petclinic-rest.git
-cd spring-petclinic-rest
+git clone https://github.com/harinathk/user-api-rest.git
+cd user-api-rest
 ./mvnw spring-boot:run
