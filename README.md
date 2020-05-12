@@ -32,4 +32,37 @@ spring.jpa.database=MYSQL
 spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
 spring.jpa.hibernate.ddl-auto=none
 ```
+### API json Response
+```json
+{
+    "results": [
+        {
+            "name": "Isabella",
+            "salary": 1731.0
+        },
+        {
+            "name": "Tyler",
+            "salary": 891.0
+        },
+        {
+            "name": "Jacob",
+            "salary": 2607.0
+        },
+        {
+            "name": "Lenny",
+            "salary": 4000.0
+        },
+        {
+            "name": "Aida",
+            "salary": 698.0
+        },
+        {
+            "name": "Chelsea",
+            "salary": 3589.0
+        }
+    ]
+}
+```
+### Test Results
+![Test Results](./api-testresults.jpg)
 
