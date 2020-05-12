@@ -34,6 +34,7 @@ spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
 spring.jpa.hibernate.ddl-auto=none
 ```
 ### API json Response
+GET http://localhost:8080/users
 ```json
 {
     "results": [
