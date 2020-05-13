@@ -1,30 +1,24 @@
 package com.cognizant.userapi.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeName;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.Valid;
 import java.util.List;
 
 /**
+ * User response model
+ *
  * @author Harinath Kuntamukkala
  */
+@Getter
+@Setter
+@AllArgsConstructor
 public class UserResponse {
 
     @JsonProperty("results")
     @Valid
-    private List<User> results = null;
-
-    public UserResponse results(List<User> results) {
-        this.results = results;
-        return this;
-    }
-
-    public List<User> getResults() {
-        return results;
-    }
-
-    public void setResults(List<User> results) {
-        this.results = results;
-    }
+    List<User> results = null;
 }

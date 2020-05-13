@@ -34,7 +34,7 @@ spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
 spring.jpa.hibernate.ddl-auto=none
 ```
 ### API json Response
-GET http://localhost:8080/users
+GET http://localhost:8080/users/salary?from=0&to=4000
 ```json
 {
     "results": [
@@ -65,7 +65,7 @@ GET http://localhost:8080/users
     ]
 }
 ```
-Error Response
+ErrorResponse, if there are no users within salary range
 ```json
 {
     "code": "204",
@@ -73,6 +73,17 @@ Error Response
     "details": "uri=/users"
 }
 ```
+### APIs to Test
+GET http://localhost:8080/users
+
+GET http://localhost:8080/users/1
+
+GET http://localhost:8080/users/salary?from=0&to=4000
+#### Error Response
+GET http://localhost:8080/users/100
+
+GET http://localhost:8080/users/salary?from=10000&to=40000
+
 ### Test Results
 ![Test Results](./test-results.jpg)
 

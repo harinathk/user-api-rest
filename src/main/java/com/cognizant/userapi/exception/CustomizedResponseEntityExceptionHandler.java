@@ -1,7 +1,5 @@
 package com.cognizant.userapi.exception;
 
-import java.util.Date;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,35 +10,62 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 
 /**
+ * Global ResponseEntity Exception Handler
+ *
  * @author Harinath Kuntamukkala
  */
 @ControllerAdvice
 @RestController
 public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
-    public final ResponseEntity<ErrorResponse> handleAllExceptions(Exception ex, WebRequest request) {
-        ErrorResponse errorResponse = new ErrorResponse("500", ex.getMessage(),
-                request.getDescription(false));
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    private static final String INTERNAL_SERVER_ERROR  = "500";
+    private static final String NOT_FOUND  = "204";
 
+    /**
+     * User not found exception servers for All users and user by id
+     * @param ex
+     * @param request
+     * @return ResponseEntity
+     */
     @ExceptionHandler(UserNotFoundException.class)
-    public final ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
-        ErrorResponse errorResponse = new ErrorResponse("204", ex.getMessage(),
+    public final ResponseEntity<ErrorResponse> handleUserNotFoundException(final UserNotFoundException ex, final WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(NOT_FOUND, ex.getMessage(),
                 request.getDescription(false));
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Top level Exception handler
+     * @param ex
+     * @param request
+     * @return ResponseEntity
+     */
+    @ExceptionHandler(Exception.class)
+    public final ResponseEntity<ErrorResponse> handleAllExceptions(final Exception ex, final WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(INTERNAL_SERVER_ERROR, ex.getMessage(),
+                request.getDescription(false));
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
+    /**
+     * Runtime Exception handler
+     * @param e
+     * @return ResponseEntity
+     */
     @ExceptionHandler({RuntimeException.class})
-    public ResponseEntity<String> handleRunTimeException(RuntimeException e) {
+    public ResponseEntity<String> handleRunTimeException(final RuntimeException e) {
         return error(HttpStatus.INTERNAL_SERVER_ERROR, e);
     }
 
-
-    private ResponseEntity<String> error(HttpStatus status, Exception e) {
+    /**
+     * error handler
+     * @param status
+     * @param e
+     * @return ResponseEntity
+     */
+    private ResponseEntity<String> error(final HttpStatus status, final Exception e) {
         return ResponseEntity.status(status).body(e.getMessage());
     }
+
 }
 

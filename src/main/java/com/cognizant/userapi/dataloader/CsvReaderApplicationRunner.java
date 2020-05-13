@@ -5,8 +5,7 @@ import com.cognizant.userapi.repository.UserRepository;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -23,12 +22,15 @@ import java.util.List;
  * @author Harinath Kuntamukkala
  */
 @Component
+@Slf4j
 public class CsvReaderApplicationRunner implements ApplicationRunner {
-
-    Logger logger = LoggerFactory.getLogger(CsvReaderApplicationRunner.class);
 
     private final UserRepository userRepository;
 
+    /**
+     * Constructor Injection
+     * @param repository
+     */
     CsvReaderApplicationRunner(UserRepository repository) {
         this.userRepository = repository;
     }
@@ -43,22 +45,27 @@ public class CsvReaderApplicationRunner implements ApplicationRunner {
      * @param args
      */
     @Override
-    public void run(ApplicationArguments args) throws Exception {
-        logger.info("Test Application Runner");
+    public void run(final ApplicationArguments args) throws Exception {
+        log.info("Application Runner - CSV Loader");
         userRepository.saveAll(loadObjectList(User.class, user_info_file_path));
     }
 
-
-    private <T> List<T> loadObjectList(Class<T> type, String fileName) {
+    /**
+     * Csv Parser using Jackson Library
+     * @param type
+     * @param fileName
+     * @param <T>
+     * @return
+     */
+    private <T> List<T> loadObjectList(Class<T> type, final String fileName) {
         try {
-            CsvSchema bootstrapSchema = CsvSchema.emptySchema().withHeader();
             CsvMapper mapper = new CsvMapper();
             File file = new ClassPathResource(fileName).getFile();
             MappingIterator<T> readValues =
-                    mapper.readerFor(type).with(bootstrapSchema).readValues(file);
+                    mapper.readerFor(type).with(CsvSchema.emptySchema().withHeader()).readValues(file);
             return readValues.readAll();
         } catch (Exception e) {
-            logger.error("Error occurred while loading object list from file " + fileName, e);
+            log.error("Error occurred while loading object list from file " + fileName, e);
             return Collections.emptyList();
         }
     }

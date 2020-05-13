@@ -1,8 +1,7 @@
 package com.cognizant.userapi;
 
 import com.cognizant.userapi.model.User;
-import com.cognizant.userapi.repository.UserRepository;
-import com.cognizant.userapi.rest.UserController;
+import com.cognizant.userapi.controller.UserController;
 import com.cognizant.userapi.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,7 +40,7 @@ public class UserControllerTests {
     UserService userService;
 
     @Test
-    public void whenFindAllThenReturnUserList() throws Exception {
+    public void whenFindAllUsersWithinTheSalaryLimitsThenReturnUserList() throws Exception {
         // given
         List<User> users =
             Arrays.asList( //
@@ -51,10 +50,10 @@ public class UserControllerTests {
                     new User(4L, "Joseph", BigDecimal.valueOf(4000))
             );
 
-        doReturn(users).when(userService).findUsersWhoseSalariesBetween0To4000();
+        doReturn(users).when(userService).findBySalary(BigDecimal.valueOf(0), BigDecimal.valueOf(4000));
 
         // when + then
-        this.mockMvc.perform(get("/users"))
+        this.mockMvc.perform(get("/users/salary?from=0&to=4000"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.results.size()", is(4)))
                 .andExpect(jsonPath("$.results[2].name", is("James")))
@@ -62,7 +61,7 @@ public class UserControllerTests {
     }
 
     @Test
-    public void whenNotFindAllThenDontReturnUserList() throws Exception {
+    public void whenNotFindAllUsersWithinTheSalaryLimitsThenReturnUserList() throws Exception {
         // given
         List<User> users =
                 Arrays.asList( //
@@ -72,10 +71,10 @@ public class UserControllerTests {
                         new User(4L, "Joseph", BigDecimal.valueOf(4000))
                 );
 
-        doReturn(users).when(userService).findUsersWhoseSalariesBetween0To4000();
+        doReturn(users).when(userService).findBySalary(BigDecimal.valueOf(0), BigDecimal.valueOf(4000));
 
         // when + then
-        this.mockMvc.perform(get("/users"))
+        this.mockMvc.perform(get("/users/salary?from=0&to=4000"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.results.size()", is(not(5))))
                 .andExpect(jsonPath("$.results[2].name", is(not("Hari"))));

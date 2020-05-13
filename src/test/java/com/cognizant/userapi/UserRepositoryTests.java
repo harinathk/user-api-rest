@@ -2,7 +2,6 @@ package com.cognizant.userapi;
 
 import com.cognizant.userapi.model.User;
 import com.cognizant.userapi.repository.UserRepository;
-import com.cognizant.userapi.rest.UserController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -51,7 +50,7 @@ public class UserRepositoryTests {
     @Test
     public void whenFindUsersWhoseSalariesWithinTheLimitThenReturnUserList() {
         //when
-        List<User> users = userRepository.findUsersWhoseSalariesBetween0To4000();
+        List<User> users = userRepository.findBySalary(BigDecimal.valueOf(0), BigDecimal.valueOf(4000));
 
         //then
         assertThat(users).hasSize(3);

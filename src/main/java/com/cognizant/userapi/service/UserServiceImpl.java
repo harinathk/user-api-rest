@@ -2,11 +2,10 @@ package com.cognizant.userapi.service;
 
 import com.cognizant.userapi.model.User;
 import com.cognizant.userapi.repository.UserRepository;
-import com.cognizant.userapi.rest.UserController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,24 +16,32 @@ import java.util.Optional;
  * @author Harinath Kuntamukkala
  */
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService{
-
-    Logger logger = LoggerFactory.getLogger(UserController.class);
 
     private final UserRepository userRepository;
 
-    UserServiceImpl(UserRepository repository) {
+    /**
+     * Constructor Injection
+     * @param repository
+     */
+    UserServiceImpl(final UserRepository repository) {
         this.userRepository = repository;
     }
 
     @Override
-    public List<User> findUsersWhoseSalariesBetween0To4000() {
-        return userRepository.findUsersWhoseSalariesBetween0To4000();
+    public Optional<User> findById(final Long id) {
+        return userRepository.findById(id);
     }
 
     @Override
-    public Optional<User> findById(Long id) {
-        return userRepository.findById(id);
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public List<User> findBySalary(final BigDecimal fromSalary, final BigDecimal toSalary) {
+        return userRepository.findBySalary(fromSalary, toSalary);
     }
 
 }
