@@ -65,6 +65,14 @@ GET http://localhost:8080/users
     ]
 }
 ```
+Error Response
+```json
+{
+    "code": "204",
+    "message": "Users Not Found",
+    "details": "uri=/users"
+}
+```
 ### Test Results
 ![Test Results](./test-results.jpg)
 

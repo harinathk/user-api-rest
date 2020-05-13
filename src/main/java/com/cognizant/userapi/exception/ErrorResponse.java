@@ -8,19 +8,19 @@ import java.util.Date;
  * @author Harinath Kuntamukkala
  */
 public class ErrorResponse {
-    private final Date timestamp;
+    private final String code;
     private final String message;
     private final String details;
 
-    public ErrorResponse(Date timestamp, String message, String details) {
+    public ErrorResponse(String code, String message, String details) {
         super();
-        this.timestamp = timestamp;
+        this.code = code;
         this.message = message;
         this.details = details;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public String getCode() {
+        return code;
     }
 
     public String getMessage() {
