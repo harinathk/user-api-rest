@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "user-info-file.path",
+      "type": "java.lang.String",
+      "description": "User Info File in CSV format."
+    }
+  ] }

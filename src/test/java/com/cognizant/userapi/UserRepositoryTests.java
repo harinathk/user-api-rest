@@ -2,7 +2,7 @@ package com.cognizant.userapi;
 
 import com.cognizant.userapi.model.User;
 import com.cognizant.userapi.repository.UserRepository;
-import org.junit.jupiter.api.BeforeAll;
+import com.cognizant.userapi.rest.UserController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,10 +15,13 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
 
-
+/**
+ * Test class for {@link UserRepository}
+ *
+ * @author Harinath Kuntamukkala
+ */
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class UserRepositoryTests {
@@ -46,7 +49,7 @@ public class UserRepositoryTests {
     }
 
     @Test
-    public void whenFindUsersWhoseSalariesWithinTheLimit_thenReturnUserList() {
+    public void whenFindUsersWhoseSalariesWithinTheLimitThenReturnUserList() {
         //when
         List<User> users = userRepository.findUsersWhoseSalariesBetween0To4000();
 
@@ -55,7 +58,7 @@ public class UserRepositoryTests {
     }
 
     @Test
-    public void whenFindAll_thenReturnUserList() {
+    public void whenFindAllThenReturnUserList() {
         //when
         List<User> users = userRepository.findAll();
 
@@ -64,7 +67,7 @@ public class UserRepositoryTests {
     }
 
     @Test
-    public void whenFindById_thenReturnUser() {
+    public void whenFindByIdThenReturnUser() {
         // when
         User user = userRepository.findById(1l).get();
 

@@ -66,5 +66,5 @@ GET http://localhost:8080/users
 }
 ```
 ### Test Results
-![Test Results](./api-testresults.jpg)
+![Test Results](./test-results.jpg)
 

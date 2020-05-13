@@ -2,6 +2,8 @@ package com.cognizant.userapi;
 
 import com.cognizant.userapi.model.User;
 import com.cognizant.userapi.repository.UserRepository;
+import com.cognizant.userapi.rest.UserController;
+import com.cognizant.userapi.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * Test class for {@link UserController}
+ *
+ * @author Harinath Kuntamukkala
+ */
 @ExtendWith(SpringExtension.class)
 @WebMvcTest
 public class UserControllerTests {
@@ -30,13 +37,11 @@ public class UserControllerTests {
     @Autowired
     private MockMvc mockMvc;
 
-
     @MockBean
-    UserRepository userRepository;
-
+    UserService userService;
 
     @Test
-    public void whenFindAll_thenReturnUserList() throws Exception {
+    public void whenFindAllThenReturnUserList() throws Exception {
         // given
         List<User> users =
             Arrays.asList( //
@@ -46,18 +51,18 @@ public class UserControllerTests {
                     new User(4L, "Joseph", BigDecimal.valueOf(4000))
             );
 
-        doReturn(users).when(userRepository).findUsersWhoseSalariesBetween0To4000();
+        doReturn(users).when(userService).findUsersWhoseSalariesBetween0To4000();
 
         // when + then
         this.mockMvc.perform(get("/users"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.results.size()", is(4)))
                 .andExpect(jsonPath("$.results[2].name", is("James")))
-                .andExpect(jsonPath("$.results[2].salary", is(2600)));;
+                .andExpect(jsonPath("$.results[2].salary", is(2600)));
     }
 
     @Test
-    public void whenNotFindAll_thenDontReturnUserList() throws Exception {
+    public void whenNotFindAllThenDontReturnUserList() throws Exception {
         // given
         List<User> users =
                 Arrays.asList( //
@@ -67,7 +72,7 @@ public class UserControllerTests {
                         new User(4L, "Joseph", BigDecimal.valueOf(4000))
                 );
 
-        doReturn(users).when(userRepository).findUsersWhoseSalariesBetween0To4000();
+        doReturn(users).when(userService).findUsersWhoseSalariesBetween0To4000();
 
         // when + then
         this.mockMvc.perform(get("/users"))
@@ -78,11 +83,11 @@ public class UserControllerTests {
 
 
     @Test
-    public void whenFindById_thenReturnUser() throws Exception {
+    public void whenFindByIdThenReturnUser() throws Exception {
         // given
         User user = new User(1l, "Frodo", BigDecimal.valueOf(3500));
 
-        doReturn(Optional.of(user)).when(userRepository).findById(1l);
+        doReturn(Optional.of(user)).when(userService).findById(1l);
 
         // when + then
         this.mockMvc.perform(get("/users/1"))
@@ -91,11 +96,11 @@ public class UserControllerTests {
     }
 
     @Test
-    public void whenNotFindById_thenDontReturnUser() throws Exception {
+    public void whenNotFindByIdThenDontReturnUser() throws Exception {
         // given
         User user = new User(1l, "Frodo", BigDecimal.valueOf(3500));
 
-        doReturn(Optional.of(user)).when(userRepository).findById(1l);
+        doReturn(Optional.of(user)).when(userService).findById(1l);
 
         // when + then
         this.mockMvc.perform(get("/users/1"))

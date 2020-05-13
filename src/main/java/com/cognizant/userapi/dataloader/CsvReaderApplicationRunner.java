@@ -27,7 +27,7 @@ public class CsvReaderApplicationRunner implements ApplicationRunner {
 
     Logger logger = LoggerFactory.getLogger(CsvReaderApplicationRunner.class);
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     CsvReaderApplicationRunner(UserRepository repository) {
         this.userRepository = repository;
@@ -45,9 +45,7 @@ public class CsvReaderApplicationRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         logger.info("Test Application Runner");
-        List<User> users = loadObjectList(User.class, user_info_file_path);
-        userRepository.saveAll(users);
-        System.out.println(users);
+        userRepository.saveAll(loadObjectList(User.class, user_info_file_path));
     }
 
 
@@ -57,7 +55,7 @@ public class CsvReaderApplicationRunner implements ApplicationRunner {
             CsvMapper mapper = new CsvMapper();
             File file = new ClassPathResource(fileName).getFile();
             MappingIterator<T> readValues =
-                    mapper.reader(type).with(bootstrapSchema).readValues(file);
+                    mapper.readerFor(type).with(bootstrapSchema).readValues(file);
             return readValues.readAll();
         } catch (Exception e) {
             logger.error("Error occurred while loading object list from file " + fileName, e);

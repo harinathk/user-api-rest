@@ -8,9 +8,9 @@ import java.util.Date;
  * @author Harinath Kuntamukkala
  */
 public class ErrorResponse {
-    private Date timestamp;
-    private String message;
-    private String details;
+    private final Date timestamp;
+    private final String message;
+    private final String details;
 
     public ErrorResponse(Date timestamp, String message, String details) {
         super();
