@@ -11,6 +11,6 @@ import java.util.List;
  */
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query("SELECT u FROM User u WHERE u.salary BETWEEN 10000 and 40000")
+    @Query("SELECT u FROM User u WHERE u.salary BETWEEN 0 and 4000")
     List<User> findUsersWhoseSalariesBetween0To4000();
 }
